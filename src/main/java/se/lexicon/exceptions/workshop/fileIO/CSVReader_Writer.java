@@ -101,8 +101,6 @@ public class CSVReader_Writer {
         return names;
     }
 
-
-
     public static void saveLastNames(List<String> lastNames) {
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("lastnames.txt"))) {
             for (String toWrite : lastNames) {
