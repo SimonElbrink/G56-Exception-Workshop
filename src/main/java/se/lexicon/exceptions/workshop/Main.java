@@ -9,14 +9,15 @@ import se.lexicon.exceptions.workshop.fileIO.CSVReader_Writer;
 
 public class Main {
 
-    // TODO : Solve.
     public static void main(String[] args) {
 
         List<String> maleFirstNames = CSVReader_Writer.getMaleFirstNames();
         List<String> femaleFirstNames = CSVReader_Writer.getFemaleFirstNames();
 
+        List<String> lastNames = null;
+
         try {
-            List<String> lastNames = CSVReader_Writer.getLastNames();
+            lastNames = CSVReader_Writer.getLastNames();
         } catch (IOException e) {
             System.out.println("Could not read last names: " + e.getMessage());;
         }
