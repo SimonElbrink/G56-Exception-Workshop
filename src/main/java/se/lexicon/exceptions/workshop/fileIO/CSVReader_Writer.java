@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 public class CSVReader_Writer {
 
-    /** TODO: Complete this method
+    /**
      * This method getMaleFirstNames should use a try-catch-finally without resources
      * Should catch FileNotFoundException and IOException
      * You should also close the Buffered reader in the finally block
@@ -51,7 +51,7 @@ public class CSVReader_Writer {
     }
 
 
-    /** TODO: Complete this method
+    /**
      * This method getFemaleFirstNames should make use of a try-catch with resources
      *
      * @return
@@ -73,7 +73,7 @@ public class CSVReader_Writer {
     }
 
 
-    /** TODO: Complete this method
+    /**
      * This method fetches strings from a file and puts them into a list
      * This method might throw IOException which due to the throws clause need to
      * be handled by the caller.
@@ -102,13 +102,16 @@ public class CSVReader_Writer {
     }
 
 
-        //TODO : Solve this Exception
+
     public static void saveLastNames(List<String> lastNames) {
-        BufferedWriter writer = Files.newBufferedWriter(Paths.get("lastnames.txt"));
-        for (String toWrite : lastNames) {
-            writer.append(toWrite + ",");
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("lastnames.txt"))) {
+            for (String toWrite : lastNames) {
+                writer.append(toWrite + ",");
+            }
+            writer.flush();
+        } catch (IOException e) {
+            System.out.println("Could not save last names: " + e.getMessage());
         }
-        writer.flush();
     }
 
     //TODO : Solve this Exception
