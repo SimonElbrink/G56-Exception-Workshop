@@ -2,6 +2,7 @@ package se.lexicon.exceptions.workshop.data_access;
 
 import se.lexicon.exceptions.workshop.domain.Gender;
 import se.lexicon.exceptions.workshop.domain.Person;
+import se.lexicon.exceptions.workshop.exception.DuplicateNameException;
 import se.lexicon.exceptions.workshop.fileIO.CSVReader_Writer;
 
 import java.util.List;
@@ -55,17 +56,19 @@ public class NameService {
     }
 
 
-    /** TODO : Complete this method
+    /**
      * Here you need to check if List<String> femaleFirstNames already contains the name
      * If name already exists throw a new custom exception you will have to create called
      * DuplicateNameException.
      *
      * @param name
      */
-    public void addFemaleFirstName(String name) {
+    public void addFemaleFirstName(String name) throws DuplicateNameException {
+        if (femaleFirstNames.contains(name)) {
+            throw new DuplicateNameException("Name already exists: " + name);
+        }
         femaleFirstNames.add(name);
         CSVReader_Writer.saveFemaleNames(femaleFirstNames);
-
     }
 
     /** TODO : Complete this method
