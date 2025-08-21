@@ -22,7 +22,6 @@ public class NameService {
                 (lastNames == null || lastNames.isEmpty())){
             throw new NullPointerException();
         }
-                System.out.println("Nameservice constructor, try block");
                 this.maleFirstNames = maleFirstNames;
                 this.femaleFirstNames = femaleFirstNames;
                 this.lastNames = lastNames;
