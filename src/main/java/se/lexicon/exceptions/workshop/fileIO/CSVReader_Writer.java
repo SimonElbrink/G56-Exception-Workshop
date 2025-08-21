@@ -2,6 +2,7 @@ package se.lexicon.exceptions.workshop.fileIO;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -18,16 +19,25 @@ public class CSVReader_Writer {
      *
      * @return List<String>of male firstnames
      */
-    public static List<String> getMaleFirstNames() {
+    public static List<String> getMaleFirstNames() throws IOException {
 
         BufferedReader reader = null;
         List<String> names = null;
 
+        try {
+            reader = Files.newBufferedReader(Paths.get("firstname_males.txt"));
+            names = reader.lines()
+                    .flatMap(line -> Stream.of(line.split(",")))
+                    .collect(Collectors.toList());
+        } catch (FileNotFoundException e){
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            reader.close();
+        }
 
-        reader = Files.newBufferedReader(Paths.get("firstname_males.txt"));
-        names = reader.lines()
-                .flatMap(line -> Stream.of(line.split(",")))
-                .collect(Collectors.toList());
 
         return names;
     }
@@ -42,10 +52,19 @@ public class CSVReader_Writer {
 
         List<String> names = null;
 
-        BufferedReader reader = Files.newBufferedReader(Paths.get("firstname_female.txt"));
-        names = reader.lines()
-                .flatMap(line -> Stream.of(line.split(",")))
-                .collect(Collectors.toList());
+        try(BufferedReader reader = Files.newBufferedReader(Paths.get("firstname_female.txt"))){
+            names = reader.lines()
+                    .flatMap(line -> Stream.of(line.split(",")))
+                    .collect(Collectors.toList());
+
+
+        } catch (FileNotFoundException e){
+            throw new RuntimeException(e);
+        }
+        catch (IOException e){
+            throw new RuntimeException(e);
+
+        }
 
         return names;
     }
@@ -61,6 +80,7 @@ public class CSVReader_Writer {
      */
     public static List<String> getLastNames() throws IOException {
 
+        //TODO -- fråga simon om vi ska ändra i den här eller om vi ska öåta den vara?
         List<String> names = null;
         BufferedReader reader = null;
 
