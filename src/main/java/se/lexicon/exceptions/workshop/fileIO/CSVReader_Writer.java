@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,7 +13,10 @@ import java.util.stream.Stream;
 
 public class CSVReader_Writer {
 
-    /** TODO: Complete this method
+    private static BufferedWriter writer;
+
+    /**
+     *
      * This method getMaleFirstNames should use a try-catch-finally without resources
      * Should catch FileNotFoundException and IOException
      * You should also close the Buffered reader in the finally block
@@ -33,7 +38,8 @@ public class CSVReader_Writer {
     }
 
 
-    /** TODO: Complete this method
+    /**
+
      * This method getFemaleFirstNames should make use of a try-catch with resources
      *
      * @return
@@ -80,13 +86,16 @@ public class CSVReader_Writer {
     }
 
 
-        //TODO : Solve this Exception
     public static void saveLastNames(List<String> lastNames) {
-        BufferedWriter writer = Files.newBufferedWriter(Paths.get("lastnames.txt"));
-        for (String toWrite : lastNames) {
-            writer.append(toWrite + ",");
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("lastnames.txt"))) {
+            for (String toWrite : lastNames) {
+                writer.append(toWrite + ",");
+            }
+            writer.flush();
+        } catch (IOException e) {
+            System.err.println("an error is occurred when saving last names:" + e.getLocalizedMessage());
+            e.printStackTrace();
         }
-        writer.flush();
     }
 
     //TODO : Solve this Exception
