@@ -1,5 +1,6 @@
 package se.lexicon.exceptions.workshop;
 
+import java.io.IOException;
 import java.util.List;
 
 import se.lexicon.exceptions.workshop.data_access.NameService;
@@ -8,8 +9,8 @@ import se.lexicon.exceptions.workshop.fileIO.CSVReader_Writer;
 
 public class Main {
 
-    // TODO : Solve.
-    public static void main(String[] args) {
+
+    public static void main(String[] args){
 
         List<String> maleFirstNames = CSVReader_Writer.getMaleFirstNames();
         List<String> femaleFirstNames = CSVReader_Writer.getFemaleFirstNames();
@@ -23,6 +24,11 @@ public class Main {
 
 
         NameService nameService = new NameService(maleFirstNames, femaleFirstNames, lastNames);
+
+        nameService.addFemaleFirstName("Lalita");
+        nameService.addFemaleFirstName("Sylvia");
+        nameService.addMaleFirstName("Mykyta");
+        nameService.addMaleFirstName("Simon");
 
 
         Person test = nameService.getNewRandomPerson();

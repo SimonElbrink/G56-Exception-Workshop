@@ -60,19 +60,29 @@ public class CSVReader_Writer {
      * @return
      */
     public static List<String> getFemaleFirstNames() {
-
+        //BufferedReader reader = null;
         List<String> names = null;
 
-        BufferedReader reader = Files.newBufferedReader(Paths.get("firstname_female.txt"));
-        names = reader.lines()
-                .flatMap(line -> Stream.of(line.split(",")))
-                .collect(Collectors.toList());
+        try(BufferedReader reader = Files.newBufferedReader(Paths.get("firstname_female.txt"))) {
+          // reader = Files.newBufferedReader(Paths.get("firstname_female.txt"));
+            names = reader.lines()
+                    .flatMap(line -> Stream.of(line.split(",")))
+                    .collect(Collectors.toList());
+        } catch (NoSuchFileException | InvalidPathException e) {
+            System.err.println("Error: File not found or invalid path - " + e.getMessage());
+        } catch (SecurityException e) {
+            out.println("Error: Permission denied.");
+        } catch (IOException e) {
+            System.out.println("IOException: Something went wrong while reading the file.");
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("Unexpected Exception: " + e);
+        }
 
         return names;
     }
 
-
-    /** TODO: Complete this method
+    /**
      * This method fetches strings from a file and puts them into a list
      * This method might throw IOException which due to the throws clause need to
      * be handled by the caller.
@@ -113,13 +123,20 @@ public class CSVReader_Writer {
         }
     }
 
-    //TODO : Solve this Exception
     public static void saveFemaleNames(List<String> femaleNames) {
-        BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_female.txt"));
-        for (String toWrite : femaleNames) {
-            writer.append(toWrite + ",");
+        try (
+                BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_female.txt"))
+        ) {
+
+            for (String toWrite : femaleNames) {
+                writer.append(toWrite + ",");
+            }
+            writer.flush();
+
+        } catch (IOException e) {
+            System.err.println("An error occurred while savin female names: " + e.getLocalizedMessage());
+            e.printStackTrace();
         }
-        writer.flush();
 
     }
 
