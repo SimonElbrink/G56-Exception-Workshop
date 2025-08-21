@@ -63,7 +63,10 @@ public class NameService {
      *
      * @param name
      */
-    public void addFemaleFirstName(String name) {
+    public void addFemaleFirstName(String name) throws DuplicateNameException {
+        if (femaleFirstNames.contains(name)) {
+            throw new DuplicateNameException("Name:" + name + " is already exist");
+        }
         femaleFirstNames.add(name);
         CSVReader_Writer.saveFemaleNames(femaleFirstNames);
 
