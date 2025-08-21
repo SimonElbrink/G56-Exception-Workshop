@@ -31,10 +31,10 @@ public class CSVReader_Writer {
                     .collect(Collectors.toList());
         }
         catch (FileNotFoundException e) {
-            System.out.println("The file was not found: " +e.getMessage());
+            System.out.println("Error: firstname_males.txt was not found.");
         }
         catch (IOException e) {
-            System.out.println("Something went wrong: " +e.getMessage());
+            System.out.println("Error reading file: " + e.getMessage());
         }
         finally {
             if (reader != null) {
