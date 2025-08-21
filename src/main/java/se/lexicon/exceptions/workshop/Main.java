@@ -1,11 +1,12 @@
 package se.lexicon.exceptions.workshop;
 
-import java.io.IOException;
-import java.util.List;
-
 import se.lexicon.exceptions.workshop.data_access.NameService;
 import se.lexicon.exceptions.workshop.domain.Person;
+import se.lexicon.exceptions.workshop.exception.DuplicateNameException;
 import se.lexicon.exceptions.workshop.fileIO.CSVReader_Writer;
+
+import java.io.IOException;
+import java.util.List;
 
 public class Main {
 

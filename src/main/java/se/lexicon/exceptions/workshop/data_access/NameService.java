@@ -2,6 +2,7 @@ package se.lexicon.exceptions.workshop.data_access;
 
 import se.lexicon.exceptions.workshop.domain.Gender;
 import se.lexicon.exceptions.workshop.domain.Person;
+import se.lexicon.exceptions.workshop.exception.DuplicateNameException;
 import se.lexicon.exceptions.workshop.fileIO.CSVReader_Writer;
 
 import java.util.List;
@@ -76,6 +77,9 @@ public class NameService {
      * @param name
      */
     public void addMaleFirstName(String name) {
+        if (maleFirstNames.contains(name)) {
+            throw new DuplicateNameException("Name: " + name + " is already exist");
+        }
         maleFirstNames.add(name);
         CSVReader_Writer.saveMaleNames(maleFirstNames);
     }
