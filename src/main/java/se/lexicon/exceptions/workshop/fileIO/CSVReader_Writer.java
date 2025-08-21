@@ -28,11 +28,24 @@ public class CSVReader_Writer {
         BufferedReader reader = null;
         List<String> names = null;
 
+        try {
+            reader = Files.newBufferedReader(Paths.get("firstname_males.txt"));
+            names = reader.lines()
+                    .flatMap(line -> Stream.of(line.split(",")))
+                    .collect(Collectors.toList());
 
-        reader = Files.newBufferedReader(Paths.get("firstname_males.txt"));
-        names = reader.lines()
-                .flatMap(line -> Stream.of(line.split(",")))
-                .collect(Collectors.toList());
+        } catch (IOException e) {
+            out.println("IOException: An error occurred while copying the file - " + e.getMessage());
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    out.println("IOException: An error occurred while reading the file");
+                }
+            }
+        }
+
 
         return names;
     }
@@ -109,14 +122,15 @@ public class CSVReader_Writer {
     }
 
 
-    //TODO : Solve this Exception
     public static void saveMaleNames(List<String> maleNames) {
-        BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_males.txt"));
-        for (String toWrite : maleNames) {
-            writer.append(toWrite + ",");
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_males.txt"))) {
+            for (String toWrite : maleNames) {
+                writer.append(toWrite).append(",");
+            }
+            writer.flush();
+        } catch (IOException e) {
+            System.out.println("IOException: An error occurred while writing the file. : " + e.getMessage());
         }
-        writer.flush();
-
 
     }
 
