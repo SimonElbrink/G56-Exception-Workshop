@@ -20,7 +20,7 @@ public class CSVReader_Writer {
      *
      * @return List<String>of male firstnames
      */
-    public static List<String> getMaleFirstNames() throws IOException {
+    public static List<String> getMaleFirstNames() throws IOException{
 
         BufferedReader reader = null;
         List<String> names = null;
@@ -30,6 +30,7 @@ public class CSVReader_Writer {
             names = reader.lines()
                     .flatMap(line -> Stream.of(line.split(",")))
                     .collect(Collectors.toList());
+
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

@@ -17,15 +17,16 @@ public class NameService {
 
     //TODO : What if lists is empty or null?
     public NameService(List<String> maleFirstNames, List<String> femaleFirstNames, List<String> lastNames) {
-
-        //TODO -- ask Simon if it matters if they are empty??
-        try {
-            this.maleFirstNames = maleFirstNames;
-            this.femaleFirstNames = femaleFirstNames;
-            this.lastNames = lastNames;
-        } catch (NullPointerException e){
-            throw new RuntimeException(e);
+        if (( maleFirstNames == null || maleFirstNames.isEmpty() ) ||
+                ( femaleFirstNames == null || femaleFirstNames.isEmpty() )||
+                (lastNames == null || lastNames.isEmpty())){
+            throw new NullPointerException();
         }
+                System.out.println("Nameservice constructor, try block");
+                this.maleFirstNames = maleFirstNames;
+                this.femaleFirstNames = femaleFirstNames;
+                this.lastNames = lastNames;
+
     }
 
     public Person getNewRandomPerson() {
@@ -60,7 +61,8 @@ public class NameService {
     }
 
 
-    /** TODO : Complete this method
+    /**
+     * TODO : Complete this method
      * Here you need to check if List<String> femaleFirstNames already contains the name
      * If name already exists throw a new custom exception you will have to create called
      * DuplicateNameException.
@@ -68,39 +70,41 @@ public class NameService {
      * @param name
      */
     public void addFemaleFirstName(String name) throws DuplicateNameException {
-        if(femaleFirstNames.contains(name)){
-            throw new DuplicateNameException("Name already exists");
+        if (femaleFirstNames.contains(name)) {
+            throw new DuplicateNameException("Name: "+ name + ", already exists");
         }
         femaleFirstNames.add(name);
         CSVReader_Writer.saveFemaleNames(femaleFirstNames);
 
     }
 
-    /** TODO : Complete this method
+    /**
+     * TODO : Complete this method
      * Here you need to check if List<String> maleFirstNames already contains the name
      * If name already exists throw a new custom exception you will have to create called
      * DuplicateNameException.
      *
      * @param name
      */
-    public void addMaleFirstName(String name)throws DuplicateNameException {
-        if(maleFirstNames.contains(name)){
-            throw new DuplicateNameException("Name already exists");
+    public void addMaleFirstName(String name) throws DuplicateNameException {
+        if (maleFirstNames.contains(name)) {
+            throw new DuplicateNameException("Name: "+ name + ", already exists");
         }
         maleFirstNames.add(name);
         CSVReader_Writer.saveMaleNames(maleFirstNames);
     }
 
-    /** TODO : Complete this method
+    /**
+     * TODO : Complete this method
      * Here you need to check if List<String> lastNames already contains the name
      * If name already exists throw a new custom exception you will have to create called
      * DuplicateNameException.
      *
      * @param lastName
      */
-    public void addLastName(String lastName) throws DuplicateNameException{
-        if(lastNames.contains(lastName)){
-            throw new DuplicateNameException("Name already exists");
+    public void addLastName(String lastName) throws DuplicateNameException {
+        if (lastNames.contains(lastName)) {
+            throw new DuplicateNameException("Lastname: " + lastName + ", already exists");
         }
         lastNames.add(lastName);
         CSVReader_Writer.saveLastNames(lastNames);
