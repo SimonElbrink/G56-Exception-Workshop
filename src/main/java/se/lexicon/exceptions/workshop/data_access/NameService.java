@@ -16,8 +16,15 @@ public class NameService {
     private List<String> lastNames;
     private static Random random = new Random();
 
-    //TODO : What if lists is empty or null?
     public NameService(List<String> maleFirstNames, List<String> femaleFirstNames, List<String> lastNames) {
+
+        if( maleFirstNames == null || femaleFirstNames == null || lastNames == null){
+            throw new IllegalArgumentException("The list of names was null!");
+        }
+
+        if( maleFirstNames.isEmpty() || femaleFirstNames.isEmpty() || lastNames.isEmpty()){
+            throw new IllegalArgumentException("The list of names was empty!");
+        }
 
         this.maleFirstNames = maleFirstNames;
         this.femaleFirstNames = femaleFirstNames;
