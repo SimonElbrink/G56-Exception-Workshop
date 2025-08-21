@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.lang.System.out;
+
 public class CSVReader_Writer {
 
     private static BufferedWriter writer;
