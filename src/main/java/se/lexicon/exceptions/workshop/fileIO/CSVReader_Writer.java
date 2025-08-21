@@ -40,7 +40,6 @@ public class CSVReader_Writer {
             if (reader != null) {
                 try {
                     reader.close();
-                    System.out.println("Reader closed successfully.");
                 } catch (IOException e) {
                     System.out.println("Failed to close the reader: " + e.getMessage());
                 }
