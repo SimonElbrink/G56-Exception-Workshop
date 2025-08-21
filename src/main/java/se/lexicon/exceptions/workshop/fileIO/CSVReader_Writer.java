@@ -79,23 +79,20 @@ public class CSVReader_Writer {
      * @return List <String> of last names
      * @throws IOException
      */
-    public static List<String> getLastNames() throws IOException {
+    public static List<String> getLastNames() {
 
-        //TODO -- fråga simon om vi ska ändra i den här eller om vi ska öåta den vara?
+        //TODO -- fråga simon om vi ska ändra i den här eller om vi ska låta den vara?
         List<String> names = null;
-        BufferedReader reader = null;
 
-        try {
-            reader = Files.newBufferedReader(Paths.get("lastnames.txt"));
+        try(BufferedReader reader = Files.newBufferedReader(Paths.get("lastnames.txt"))){
+
             names = reader.lines()
                     .flatMap(line -> Stream.of(line.split(",")))
                     .collect(Collectors.toList());
 
 
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
+        } catch (IOException e){
+            throw new RuntimeException(e);
         }
         return names;
     }
