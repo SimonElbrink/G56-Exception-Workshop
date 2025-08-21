@@ -2,6 +2,7 @@ package se.lexicon.exceptions.workshop.fileIO;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -23,11 +24,28 @@ public class CSVReader_Writer {
         BufferedReader reader = null;
         List<String> names = null;
 
-
-        reader = Files.newBufferedReader(Paths.get("firstname_males.txt"));
-        names = reader.lines()
-                .flatMap(line -> Stream.of(line.split(",")))
-                .collect(Collectors.toList());
+        try {
+            reader = Files.newBufferedReader(Paths.get("firstname_males.txt"));
+            names = reader.lines()
+                    .flatMap(line -> Stream.of(line.split(",")))
+                    .collect(Collectors.toList());
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("The file was not found: " +e.getMessage());
+        }
+        catch (IOException e) {
+            System.out.println("Something went wrong: " +e.getMessage());
+        }
+        finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                    System.out.println("Reader closed successfully.");
+                } catch (IOException e) {
+                    System.out.println("Failed to close the reader: " + e.getMessage());
+                }
+            }
+        }
 
         return names;
     }
