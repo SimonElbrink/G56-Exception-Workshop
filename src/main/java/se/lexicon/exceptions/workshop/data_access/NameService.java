@@ -16,8 +16,15 @@ public class NameService {
     private List<String> lastNames;
     private static Random random = new Random();
 
-    //TODO : What if lists is empty or null?
     public NameService(List<String> maleFirstNames, List<String> femaleFirstNames, List<String> lastNames) {
+
+        if( maleFirstNames == null || femaleFirstNames == null || lastNames == null){
+            throw new IllegalArgumentException("Name list was null!");
+        }
+
+        if( maleFirstNames.isEmpty() || femaleFirstNames.isEmpty() || lastNames.isEmpty()){
+            throw new IllegalArgumentException("Name list was empty!");
+        }
 
         this.maleFirstNames = maleFirstNames;
         this.femaleFirstNames = femaleFirstNames;
@@ -56,8 +63,8 @@ public class NameService {
     }
 
 
-    /** TODO : Complete this method
-     * Here you need to check if List<String> femaleFirstNames already contains the name
+    /**
+     * * Here you need to check if List<String> femaleFirstNames already contains the name
      * If name already exists throw a new custom exception you will have to create called
      * DuplicateNameException.
      *
@@ -72,7 +79,7 @@ public class NameService {
 
     }
 
-    /** TODO : Complete this method
+    /**
      * Here you need to check if List<String> maleFirstNames already contains the name
      * If name already exists throw a new custom exception you will have to create called
      * DuplicateNameException.
@@ -87,7 +94,7 @@ public class NameService {
         CSVReader_Writer.saveMaleNames(maleFirstNames);
     }
 
-    /** TODO : Complete this method
+    /**
      * Here you need to check if List<String> lastNames already contains the name
      * If name already exists throw a new custom exception you will have to create called
      * DuplicateNameException.
