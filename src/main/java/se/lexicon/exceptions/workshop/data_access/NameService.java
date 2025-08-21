@@ -17,6 +17,11 @@ public class NameService {
 
     //TODO : What if lists is empty or null?
     public NameService(List<String> maleFirstNames, List<String> femaleFirstNames, List<String> lastNames) {
+        if(maleFirstNames==null || maleFirstNames.isEmpty() ||
+        femaleFirstNames==null || femaleFirstNames.isEmpty() ||
+        lastNames==null || lastNames.isEmpty()) {
+            throw new IllegalArgumentException("Name lists cannot be null or empty");
+        }
 
         this.maleFirstNames = maleFirstNames;
         this.femaleFirstNames = femaleFirstNames;
@@ -63,10 +68,20 @@ public class NameService {
      * @param name
      */
     public void addFemaleFirstName(String name) {
-        femaleFirstNames.add(name);
-        CSVReader_Writer.saveFemaleNames(femaleFirstNames);
+        try {
+            if(femaleFirstNames.contains(name)) {
+                throw new DuplicateNameException ("Name already exists: " + name);
+            }
+            femaleFirstNames.add(name);
 
-    }
+        } catch (DuplicateNameException e) {
+            System.out.println(e.getMessage());
+            return;
+            }
+        CSVReader_Writer.saveFemaleNames(femaleFirstNames);
+        }
+
+
 
     /** TODO : Complete this method
      * Here you need to check if List<String> maleFirstNames already contains the name
@@ -76,7 +91,16 @@ public class NameService {
      * @param name
      */
     public void addMaleFirstName(String name) {
-        maleFirstNames.add(name);
+        try{
+            if(maleFirstNames.contains(name)){
+                throw new DuplicateNameException ("Name already exists: " + name);
+            }
+            maleFirstNames.add(name);
+
+        } catch (DuplicateNameException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
         CSVReader_Writer.saveMaleNames(maleFirstNames);
     }
 
@@ -88,9 +112,17 @@ public class NameService {
      * @param lastName
      */
     public void addLastName(String lastName) {
-        lastNames.add(lastName);
+        try{
+            if(lastNames.contains(lastName)){
+                throw new DuplicateNameException("Lastname already exists: " + lastName);
+            }
+            lastNames.add(lastName);
+        } catch (DuplicateNameException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+
         CSVReader_Writer.saveLastNames(lastNames);
     }
-
 
 }
