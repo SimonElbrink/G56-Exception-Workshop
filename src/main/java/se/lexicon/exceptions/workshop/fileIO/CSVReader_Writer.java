@@ -12,7 +12,8 @@ import java.util.stream.Stream;
 
 public class CSVReader_Writer {
 
-    /** TODO: Complete this method
+    /**
+     * TODO: Complete this method
      * This method getMaleFirstNames should use a try-catch-finally without resources
      * Should catch FileNotFoundException and IOException
      * You should also close the Buffered reader in the finally block
@@ -29,12 +30,11 @@ public class CSVReader_Writer {
             names = reader.lines()
                     .flatMap(line -> Stream.of(line.split(",")))
                     .collect(Collectors.toList());
-        } catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
-        finally {
+        } finally {
             reader.close();
         }
 
@@ -43,7 +43,8 @@ public class CSVReader_Writer {
     }
 
 
-    /** TODO: Complete this method
+    /**
+     * TODO: Complete this method
      * This method getFemaleFirstNames should make use of a try-catch with resources
      *
      * @return
@@ -52,16 +53,15 @@ public class CSVReader_Writer {
 
         List<String> names = null;
 
-        try(BufferedReader reader = Files.newBufferedReader(Paths.get("firstname_female.txt"))){
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get("firstname_female.txt"))) {
             names = reader.lines()
                     .flatMap(line -> Stream.of(line.split(",")))
                     .collect(Collectors.toList());
 
 
-        } catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             throw new RuntimeException(e);
 
         }
@@ -70,7 +70,8 @@ public class CSVReader_Writer {
     }
 
 
-    /** TODO: Complete this method
+    /**
+     * TODO: Complete this method
      * This method fetches strings from a file and puts them into a list
      * This method might throw IOException which due to the throws clause need to
      * be handled by the caller.
@@ -100,36 +101,42 @@ public class CSVReader_Writer {
     }
 
 
-        //TODO : Solve this Exception
+    //TODO : Solve this Exception
     public static void saveLastNames(List<String> lastNames) {
-        BufferedWriter writer = Files.newBufferedWriter(Paths.get("lastnames.txt"));
-        for (String toWrite : lastNames) {
-            writer.append(toWrite + ",");
+
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("lastnames.txt"))) {
+            for (String toWrite : lastNames) {
+                writer.append(toWrite + ",");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        writer.flush();
+
     }
 
     //TODO : Solve this Exception
     public static void saveFemaleNames(List<String> femaleNames) {
-        BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_female.txt"));
-        for (String toWrite : femaleNames) {
-            writer.append(toWrite + ",");
-        }
-        writer.flush();
 
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_female.txt"))) {
+            for (String toWrite : femaleNames) {
+                writer.append(toWrite + ",");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
     //TODO : Solve this Exception
     public static void saveMaleNames(List<String> maleNames) {
-        BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_males.txt"));
-        for (String toWrite : maleNames) {
-            writer.append(toWrite + ",");
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_males.txt"))) {
+
+            for (String toWrite : maleNames) {
+                writer.append(toWrite + ",");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        writer.flush();
-
-
     }
-
 
 }
