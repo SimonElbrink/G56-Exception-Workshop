@@ -112,14 +112,16 @@ public class CSVReader_Writer {
         }
     }
 
-    //TODO : Solve this Exception
     public static void saveFemaleNames(List<String> femaleNames) {
-        BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_female.txt"));
-        for (String toWrite : femaleNames) {
-            writer.append(toWrite + ",");
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_female.txt"))) {
+            for (String toWrite : femaleNames) {
+                writer.append(toWrite + ",");
+            }
+            writer.flush();
         }
-        writer.flush();
-
+        catch (IOException e) {
+            System.out.println("Could not save female names: " + e.getMessage());
+        }
     }
 
 
