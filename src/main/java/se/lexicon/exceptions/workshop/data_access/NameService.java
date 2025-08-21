@@ -71,14 +71,17 @@ public class NameService {
         CSVReader_Writer.saveFemaleNames(femaleFirstNames);
     }
 
-    /** TODO : Complete this method
+    /**
      * Here you need to check if List<String> maleFirstNames already contains the name
      * If name already exists throw a new custom exception you will have to create called
      * DuplicateNameException.
      *
      * @param name
      */
-    public void addMaleFirstName(String name) {
+    public void addMaleFirstName(String name) throws DuplicateNameException {
+        if (maleFirstNames.contains(name)){
+            throw new DuplicateNameException("Name already exists: " + name);
+        }
         maleFirstNames.add(name);
         CSVReader_Writer.saveMaleNames(maleFirstNames);
     }
