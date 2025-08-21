@@ -2,6 +2,7 @@ package se.lexicon.exceptions.workshop.fileIO;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -23,12 +24,29 @@ public class CSVReader_Writer {
         BufferedReader reader = null;
         List<String> names = null;
 
+        try {
+            reader = Files.newBufferedReader(Paths.get("firstname_males.txt"));
+            names = reader.lines()
+                    .flatMap(line -> Stream.of(line.split(",")))
+                    .collect(Collectors.toList());
 
-        reader = Files.newBufferedReader(Paths.get("firstname_males.txt"));
-        names = reader.lines()
-                .flatMap(line -> Stream.of(line.split(",")))
-                .collect(Collectors.toList());
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found, please check the path.");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("I/O error, please try again.");
+            e.printStackTrace();
+        } finally {
+            try{
+                if(reader!= null){
+                    reader.close();
+                }
+            }catch (IOException e){
+                System.out.println("Failed to close reader.");
+                e.printStackTrace();
+            }
 
+        }
         return names;
     }
 
@@ -42,11 +60,17 @@ public class CSVReader_Writer {
 
         List<String> names = null;
 
-        BufferedReader reader = Files.newBufferedReader(Paths.get("firstname_female.txt"));
-        names = reader.lines()
-                .flatMap(line -> Stream.of(line.split(",")))
-                .collect(Collectors.toList());
-
+        try(BufferedReader reader = Files.newBufferedReader(Paths.get("firstname_female.txt"))){
+            names = reader.lines()
+                    .flatMap(line -> Stream.of(line.split(",")))
+                    .collect(Collectors.toList());
+        } catch (FileNotFoundException e){
+            System.out.println("File not found, please check the path.");
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("I/O error, please try again.");
+            e.printStackTrace();
+        }
         return names;
     }
 
@@ -70,11 +94,11 @@ public class CSVReader_Writer {
                     .flatMap(line -> Stream.of(line.split(",")))
                     .collect(Collectors.toList());
 
-
         } finally {
             if (reader != null) {
                 reader.close();
             }
+
         }
         return names;
     }
@@ -82,34 +106,58 @@ public class CSVReader_Writer {
 
         //TODO : Solve this Exception
     public static void saveLastNames(List<String> lastNames) {
-        BufferedWriter writer = Files.newBufferedWriter(Paths.get("lastnames.txt"));
-        for (String toWrite : lastNames) {
-            writer.append(toWrite + ",");
+        BufferedWriter writer = null;
+
+        try {
+            writer = Files.newBufferedWriter(Paths.get("lastnames.txt"));
+            for (String toWrite : lastNames) {
+                writer.append(toWrite + ",");
+            } writer.flush();
+        } catch (IOException e) {
+            System.out.println("I/O error, please try again.");
+            e.printStackTrace();
+        } finally {
+            try {
+                if(writer !=null) {
+                    writer.close();
+                }
+            } catch (IOException e) {
+                System.out.println("Failed to close writer.");
+                e.printStackTrace();
+            }
+
         }
-        writer.flush();
+
+
     }
 
     //TODO : Solve this Exception
     public static void saveFemaleNames(List<String> femaleNames) {
-        BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_female.txt"));
-        for (String toWrite : femaleNames) {
-            writer.append(toWrite + ",");
+
+        try(BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_female.txt"))){
+            for (String toWrite : femaleNames) {
+                writer.append(toWrite + ",");
+                                }
+            writer.flush();
+            } catch (IOException e) {
+            System.out.println("I/O error, please try again.");
+            e.printStackTrace();
         }
-        writer.flush();
 
     }
-
 
     //TODO : Solve this Exception
     public static void saveMaleNames(List<String> maleNames) {
-        BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_males.txt"));
-        for (String toWrite : maleNames) {
-            writer.append(toWrite + ",");
-        }
-        writer.flush();
-
+         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_males.txt"))) {
+             for (String toWrite : maleNames) {
+                 writer.append(toWrite + ",");
+             }
+             writer.flush();
+         } catch (IOException e) {
+             System.out.println("I/O error, please try again.");
+             e.printStackTrace();
+         }
 
     }
-
 
 }
