@@ -2,13 +2,13 @@ package se.lexicon.exceptions.workshop.data_access;
 
 import se.lexicon.exceptions.workshop.domain.Gender;
 import se.lexicon.exceptions.workshop.domain.Person;
+import se.lexicon.exceptions.workshop.exception.DuplicateNameException;
 import se.lexicon.exceptions.workshop.fileIO.CSVReader_Writer;
 
 import java.util.List;
 import java.util.Random;
 
 public class NameService {
-
 
     private List<String> maleFirstNames;
     private List<String> femaleFirstNames;
@@ -18,9 +18,14 @@ public class NameService {
     //TODO : What if lists is empty or null?
     public NameService(List<String> maleFirstNames, List<String> femaleFirstNames, List<String> lastNames) {
 
-        this.maleFirstNames = maleFirstNames;
-        this.femaleFirstNames = femaleFirstNames;
-        this.lastNames = lastNames;
+        //TODO -- ask Simon if it matters if they are empty??
+        try {
+            this.maleFirstNames = maleFirstNames;
+            this.femaleFirstNames = femaleFirstNames;
+            this.lastNames = lastNames;
+        } catch (NullPointerException e){
+            throw new RuntimeException(e);
+        }
     }
 
     public Person getNewRandomPerson() {
@@ -62,7 +67,10 @@ public class NameService {
      *
      * @param name
      */
-    public void addFemaleFirstName(String name) {
+    public void addFemaleFirstName(String name) throws DuplicateNameException {
+        if(femaleFirstNames.contains(name)){
+            throw new DuplicateNameException("Name already exists");
+        }
         femaleFirstNames.add(name);
         CSVReader_Writer.saveFemaleNames(femaleFirstNames);
 
@@ -75,7 +83,10 @@ public class NameService {
      *
      * @param name
      */
-    public void addMaleFirstName(String name) {
+    public void addMaleFirstName(String name)throws DuplicateNameException {
+        if(maleFirstNames.contains(name)){
+            throw new DuplicateNameException("Name already exists");
+        }
         maleFirstNames.add(name);
         CSVReader_Writer.saveMaleNames(maleFirstNames);
     }
@@ -87,7 +98,10 @@ public class NameService {
      *
      * @param lastName
      */
-    public void addLastName(String lastName) {
+    public void addLastName(String lastName) throws DuplicateNameException{
+        if(lastNames.contains(lastName)){
+            throw new DuplicateNameException("Name already exists");
+        }
         lastNames.add(lastName);
         CSVReader_Writer.saveLastNames(lastNames);
     }
